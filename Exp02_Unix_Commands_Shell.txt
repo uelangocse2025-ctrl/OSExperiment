@@ -1,0 +1,179 @@
+==================================================================
+  Exp02_Unix_Commands_Shell
+==================================================================
+
+################  SHELL PROGRAMS  ################
+
+----- 1_greatest.sh -----
+#!/bin/bash
+echo "ENTER THREE NUMBERS"
+read a b c
+if [ $a -gt $b ] && [ $a -gt $c ]
+then
+ echo "$a is greater"
+elif [ $b -gt $c ]
+then
+ echo "$b is greater"
+else
+ echo "$c is greater"
+fi
+
+----- 2_factorial.sh -----
+#!/bin/bash
+echo "ENTER THE NUMBER:"
+read n
+fact=1
+while [ $n -gt 1 ]
+do
+ fact=$((fact * n))
+ n=$((n - 1))
+done
+echo "FACTORIAL OF THE GIVEN NUMBER IS $fact"
+
+----- 3_oddsum.sh -----
+#!/bin/bash
+echo "ENTER THE RANGE:"
+read n
+x=1
+sum=0
+while [ $x -le $n ]
+do
+ sum=$((sum + x))
+ x=$((x + 2))
+done
+echo "SUM = $sum"
+
+----- 4_fibonacci.sh -----
+#!/bin/bash
+echo "ENTER THE LIMIT:"
+read n
+p=-1
+q=1
+i=1
+while [ $i -le $n ]
+do
+ r=$((p + q))
+ p=$q
+ q=$r
+ echo "$r"
+ i=$((i + 1))
+done
+
+----- 5_calculator.sh -----
+#!/bin/bash
+echo "ENTER THE VALUE OF A:"
+read a
+echo "ENTER THE VALUE OF B:"
+read b
+echo "ENTER THE OPTION TO PERFORM"
+echo "1. ADDITION"
+echo "2. SUBTRACTION"
+echo "3. MULTIPLICATION"
+echo "4. DIVISION"
+read op
+case "$op" in
+ 1) echo "Result = $((a + b))" ;;
+ 2) echo "Result = $((a - b))" ;;
+ 3) echo "Result = $((a * b))" ;;
+ 4) echo "Result = $((a / b))" ;;
+ *) echo "Invalid Option" ;;
+esac
+
+----- 6_largestdigit.sh -----
+#!/bin/bash
+echo "ENTER THE NUMBER"
+read a
+max=0
+while [ $a -gt 0 ]
+do
+ r=$((a % 10))
+ if [ $r -gt $max ]
+ then
+ max=$r
+ fi
+ a=$((a / 10))
+done
+echo "THE LARGEST DIGIT OF THE NUMBER: $max"
+
+----- 7_palindrome.sh -----
+#!/bin/bash
+echo "ENTER THE STRING TO CHECK PALINDROME"
+read str
+len=$(echo -n "$str" | wc -c)
+i=1
+j=$((len / 2))
+while [ $i -le $j ]
+do
+ k=$(echo "$str" | cut -c $i)
+ l=$(echo "$str" | cut -c $len)
+ if [ "$k" != "$l" ]
+ then
+ echo "$str is not a palindrome"
+ exit
+ fi
+ i=$((i + 1))
+ len=$((len - 1))
+done
+echo "$str is a palindrome"
+
+----- 8_reverse.sh -----
+#!/bin/bash
+echo "ENTER THE NUMBER"
+read n
+rnum=0
+while [ $n -ne 0 ]
+do
+ remainder=$((n % 10))
+ rnum=$((rnum * 10 + remainder))
+ n=$((n / 10))
+done
+echo "REVERSE OF THE NUMBER IS $rnum"
+
+################  OUTPUT  ################
+
+=== 1_greatest.sh (input: 12 45 30) ===
+ENTER THREE NUMBERS
+45 is greater
+
+=== 2_factorial.sh (input: 5) ===
+ENTER THE NUMBER:
+FACTORIAL OF THE GIVEN NUMBER IS 120
+
+=== 3_oddsum.sh (input: 10) ===
+ENTER THE RANGE:
+SUM = 25
+
+=== 4_fibonacci.sh (input: 10) ===
+ENTER THE LIMIT:
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+
+=== 5_calculator.sh (input: 20 4 3 -> multiplication) ===
+ENTER THE VALUE OF A:
+ENTER THE VALUE OF B:
+ENTER THE OPTION TO PERFORM
+1. ADDITION
+2. SUBTRACTION
+3. MULTIPLICATION
+4. DIVISION
+Result = 80
+
+=== 6_largestdigit.sh (input: 3958) ===
+ENTER THE NUMBER
+THE LARGEST DIGIT OF THE NUMBER: 9
+
+=== 7_palindrome.sh (input: madam) ===
+ENTER THE STRING TO CHECK PALINDROME
+madam is a palindrome
+
+=== 8_reverse.sh (input: 12345) ===
+ENTER THE NUMBER
+REVERSE OF THE NUMBER IS 54321
