@@ -1,0 +1,63 @@
+==================================================================
+  Exp05_IPC
+==================================================================
+
+################  C PROGRAMS  ################
+
+----- 1_ipc_pipe.c -----
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<string.h>
+#include<sys/wait.h>
+int main()
+{
+ int fd[2];
+ pid_t pid;
+ char message[] = "Hello from Child Process";
+ char buffer[100];
+ pipe(fd);
+ pid = fork();
+ if(pid == 0)
+ {
+ close(fd[0]);
+ write(fd[1], message, strlen(message)+1);
+ close(fd[1]);
+ exit(0);
+ }
+ else
+ {
+ wait(NULL);
+ close(fd[1]);
+ read(fd[0], buffer, sizeof(buffer));
+ printf("Message received from child: %s\n", buffer);
+ close(fd[0]);
+ }
+ return 0;
+}
+
+################  SHELL PROGRAMS  ################
+
+----- 1_ipc.sh -----
+#!/bin/bash
+echo "Hello from Child Process" | cat
+
+----- 2_ipc_alternative.sh -----
+#!/bin/bash
+(
+echo "Message from Child Process"
+) | while read msg
+do
+ echo "Parent Received: $msg"
+done
+
+################  OUTPUT  ################
+
+=== C Program: IPC using Pipe ===
+Message received from child: Hello from Child Process
+
+=== Shell Script 1: IPC (pipe to cat) ===
+Hello from Child Process
+
+=== Shell Script 2: IPC (alternative, while read) ===
+Parent Received: Message from Child Process
