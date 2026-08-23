@@ -1,0 +1,84 @@
+==================================================================
+  Exp01_Windows_Installation
+==================================================================
+
+################  PROCEDURE (no compilable code)  ################
+
+Ex. No: 1
+Installation of Windows Operating System
+===========================================
+
+AIM
+To install the Windows Operating System on a computer using bootable installation
+media and verify its successful operation.
+
+PROCEDURE
+Step 1: Create Bootable Installation Media
+  1. Download the Windows ISO image from the Microsoft website.
+  2. Insert a USB drive (minimum 8 GB capacity).
+  3. Use a bootable media creation tool to create a bootable USB.
+
+Step 2: Configure Boot Settings
+  1. Insert the bootable USB into the target computer.
+  2. Restart the system and enter BIOS/UEFI setup.
+  3. Set the USB drive as the first boot device.
+  4. Save the settings and restart.
+
+Step 3: Install Windows
+  1. Boot from the USB drive.
+  2. Select language, time, and keyboard settings.
+  3. Click Install Now.
+  4. Enter the product key if available.
+  5. Accept the license agreement.
+  6. Select Custom: Install Windows Only.
+  7. Create or select a partition for installation.
+  8. Click Next to begin installation.
+
+Step 4: Initial Configuration
+  1. Wait for installation to complete.
+  2. Configure region and keyboard settings.
+  3. Create a user account and password.
+  4. Complete privacy and network settings.
+
+Step 5: Verification
+  1. Log in to Windows.
+  2. Verify the installation using system information commands.
+  3. Check the operating system version and hardware details.
+
+VERIFICATION COMMANDS USED (run in Command Prompt)
+  winver              -> Display Windows Version
+  systeminfo          -> Display System Information
+  hostname            -> Display Computer Name
+  diskpart
+    list disk         -> Display Disk Information
+  slmgr /xpr          -> Check Windows Activation Status
+  ipconfig            -> Display IP Configuration
+
+SAMPLE OUTPUT (systeminfo, illustrative)
+------------------------------------------------
+Host Name:                 DESKTOP-CIT2026
+OS Name:                   Microsoft Windows 11 Pro
+OS Version:                10.0.22631 N/A Build 22631
+System Manufacturer:       Dell Inc.
+System Model:              Inspiron 15
+System Type:                x64-based PC
+Total Physical Memory:      8,096 MB
+------------------------------------------------
+
+INFERENCE
+- The Windows Operating System was successfully installed using bootable media.
+- System configuration settings were completed successfully.
+- The installed operating system was verified using Windows command-line utilities.
+- Hardware and network configurations were detected correctly by the operating system.
+
+RESULT
+The Windows Operating System was successfully installed and configured on the
+computer. The installation was verified using system commands, and the system
+was found to be functioning properly.
+
+NOTE: This experiment is a hands-on installation/configuration exercise performed
+on physical/virtual hardware and does not involve compilable source code. There is
+no .c or .sh program associated with this experiment in the manual.
+
+################  OUTPUT  ################
+
