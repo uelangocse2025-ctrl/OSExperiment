@@ -1,0 +1,138 @@
+==================================================================
+  Exp08_Deadlock_Detection
+==================================================================
+
+################  C PROGRAMS  ################
+
+----- 1_deadlock_detection.c -----
+#include <stdio.h>
+int main()
+{
+ int allocation[10][10], request[10][10];
+ int available[10];
+ int work[10];
+ int finish[10];
+ int n, m;
+ int i, j, k;
+ int found;
+ printf("Enter Number of Processes: ");
+ scanf("%d", &n);
+ printf("Enter Number of Resource Types: ");
+ scanf("%d", &m);
+ printf("\nEnter Allocation Matrix:\n");
+ for(i = 0; i < n; i++)
+ {
+ for(j = 0; j < m; j++)
+ {
+ scanf("%d", &allocation[i][j]);
+ }
+ }
+ printf("\nEnter Request Matrix:\n");
+ for(i = 0; i < n; i++)
+ {
+ for(j = 0; j < m; j++)
+ {
+ scanf("%d", &request[i][j]);
+ }
+ }
+ printf("\nEnter Available Resources:\n");
+ for(i = 0; i < m; i++)
+ {
+ scanf("%d", &available[i]);
+ work[i] = available[i];
+ }
+ for(i = 0; i < n; i++)
+ {
+ finish[i] = 0;
+ }
+ do
+ {
+ found = 0;
+ for(i = 0; i < n; i++)
+ {
+ if(finish[i] == 0)
+ {
+ for(j = 0; j < m; j++)
+ {
+ if(request[i][j] > work[j])
+ break;
+ }
+ if(j == m)
+ {
+ for(k = 0; k < m; k++)
+ {
+ work[k] += allocation[i][k];
+ }
+ finish[i] = 1;
+ found = 1;
+ }
+ }
+ }
+ } while(found);
+ found = 0;
+ printf("\nDeadlocked Processes:\n");
+ for(i = 0; i < n; i++)
+ {
+ if(finish[i] == 0)
+ {
+ printf("P%d ", i);
+ found = 1;
+ }
+ }
+ if(found == 0)
+ {
+ printf("No Deadlock Detected");
+ }
+ printf("\n");
+ return 0; }
+
+################  SHELL PROGRAMS  ################
+
+----- 1_deadlock_detection.sh -----
+#!/bin/bash
+echo "Enter number of processes:"
+read n
+echo "Enter deadlocked process numbers (if any):"
+read processes
+if [ -z "$processes" ]
+then
+ echo "No Deadlock Detected"
+else
+ echo "Deadlocked Processes:"
+ echo "$processes"
+fi
+
+################  OUTPUT  ################
+
+=== C Program: Deadlock Detection (No Deadlock case) ===
+Enter Number of Processes: Enter Number of Resource Types: 
+Enter Allocation Matrix:
+
+Enter Request Matrix:
+
+Enter Available Resources:
+
+Deadlocked Processes:
+No Deadlock Detected
+
+=== C Program: Deadlock Detection (Deadlock present case) ===
+Enter Number of Processes: Enter Number of Resource Types: 
+Enter Allocation Matrix:
+
+Enter Request Matrix:
+
+Enter Available Resources:
+
+Deadlocked Processes:
+P0 P1 
+
+=== Shell Script: Deadlock Detection (No Deadlock) ===
+Enter number of processes:
+Enter deadlocked process numbers (if any):
+No Deadlock Detected
+
+=== Shell Script: Deadlock Detection (Deadlock present) ===
+Enter number of processes:
+Enter deadlocked process numbers (if any):
+Deadlocked Processes:
+P0 P1
