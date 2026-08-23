@@ -1,0 +1,141 @@
+==================================================================
+  Exp03_System_Calls
+==================================================================
+
+################  C PROGRAMS  ################
+
+----- 1_fork_getpid_wait_exit.c -----
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+int main()
+{
+ pid_t pid;
+ pid = fork();
+ if(pid < 0)
+ {
+ printf("Fork Failed\n");
+ exit(1);
+ }
+ else if(pid == 0)
+ {
+ printf("\nCHILD PROCESS");
+ printf("\nChild PID : %d", getpid());
+ printf("\nParent PID : %d\n", getppid());
+ exit(0);
+ }
+ else
+ {
+ wait(NULL);
+ printf("\nPARENT PROCESS");
+ printf("\nParent PID : %d", getpid());
+ printf("\nParent's Parent PID : %d\n", getppid());
+ }
+ return 0;
+}
+
+----- 2_wait_syscall.c -----
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
+int main() {
+ pid_t pid;
+ pid = fork();
+ if(pid == 0)
+ {
+ printf("Child Process Running\n");
+ sleep(2);
+ printf("Child Process Completed\n");
+ }
+ else
+ {
+ wait(NULL);
+ printf("Parent Resumes Execution\n");
+ }
+ return 0; }
+
+----- 3_close_syscall.c -----
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+int main()
+{
+ int fd;
+ fd = open("sample.txt", O_RDONLY);
+ if(fd < 0)
+ {
+ printf("File Opening Failed\n");
+ return 1;
+ }
+ printf("File Opened Successfully\n");
+ close(fd);
+ printf("File Closed Successfully\n");
+ return 0;
+}
+
+################  SHELL PROGRAMS  ################
+
+----- 1_fork_equivalent.sh -----
+#!/bin/bash
+echo "Parent Process ID : $$"
+(
+echo "Child Process ID : $$"
+echo "Parent Process ID : $PPID"
+exit 0
+) &
+wait
+echo "Child Process Completed"
+
+----- 2_wait_equivalent.sh -----
+#!/bin/bash
+(
+echo "Child Process Running"
+sleep 2
+echo "Child Process Completed"
+) &
+wait
+echo "Parent Resumes Execution"
+
+----- 3_close_equivalent.sh -----
+#!/bin/bash
+exec 3< sample.txt
+echo "File Opened Successfully"
+exec 3<&-
+echo "File Closed Successfully"
+
+################  OUTPUT  ################
+
+=== C Program 1: fork(), getpid(), wait(), exit() ===
+
+CHILD PROCESS
+Child PID : 567
+Parent PID : 566
+
+PARENT PROCESS
+Parent PID : 566
+Parent's Parent PID : 550
+
+=== C Program 2: wait() system call ===
+Child Process Running
+Child Process Completed
+Parent Resumes Execution
+
+=== C Program 3: close() system call ===
+File Opened Successfully
+File Closed Successfully
+
+=== Shell 1: fork equivalent ===
+Parent Process ID : 571
+Child Process ID : 571
+Parent Process ID : 550
+Child Process Completed
+
+=== Shell 2: wait equivalent ===
+Child Process Running
+Child Process Completed
+Parent Resumes Execution
+
+=== Shell 3: close equivalent ===
+File Opened Successfully
+File Closed Successfully
